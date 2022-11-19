@@ -58,11 +58,18 @@ yarn hardhat test
 
 
 cat > scripts/deployment.ts << EOF
+import { MyToken__factory } from "../typechain-types";
+import { ethers } from "hardhat";
 
 async function main() {
-
+    const provider = new ethers.providers.InfuraProvider("goerli", process.env.INFURA_API_KEY);
+    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? "");
+    const accounts = await ethers.getSigners();
+    const contractFactory = new MyToken__factory(accounts[0]);
+    const contract = await contractFactory.deploy();
+    await contract.deployed();
+    console.log(\`Contract deployed at \${contract.address}\`)
 }
-
 /**
  * let call main()
  */
@@ -70,6 +77,7 @@ main().catch((error) => {
     console.error(error);
     process.exitCode = 1;
 });
+
 
 EOF
 
