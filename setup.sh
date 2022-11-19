@@ -1,10 +1,12 @@
  nvm use 18
  yarn init -2
  yarn config set nodeLinker node-modules
+ yarn add dotenv
  yarn add hardhat --dev
  rm -f README.md
  yarn hardhat init
  yarn add mocha --dev
+ yarn add @openzeppelin/contracts
  mv test tests
 cat > .mocharc.json <<EOF
 {
@@ -52,3 +54,23 @@ fi
 
 yarn hardhat compile
 yarn hardhat test
+
+
+
+cat > scripts/deployment.ts << EOF
+
+async function main() {
+
+}
+
+/**
+ * let call main()
+ */
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});
+
+EOF
+
+echo "to run scripts : yarn run ts-node --files" 
